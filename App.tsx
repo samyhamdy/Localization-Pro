@@ -124,7 +124,7 @@ const App: React.FC = () => {
       setProgress({ message: 'Completed!', percentage: 100 });
     } catch (err) {
       console.error(err);
-      if (err instanceof Error && (err.message.includes('API key') || err.message.includes('Requested entity was not found'))) {
+      if (err instanceof Error && (err.message.toLowerCase().includes('api key') || err.message.includes('Requested entity was not found'))) {
           setError("Your API key is not valid. Please select a new one to continue.");
           setIsKeyReady(false);
       } else {
