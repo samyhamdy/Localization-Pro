@@ -1,5 +1,5 @@
 {
-  "name": "AI Localization Extractor for Figma",
+  "name": "101 localization Extractor for Figma",
   "description": "Upload a PDF exported from Figma to automatically extract text, generate localization keys with AI, and download translation files (JSON) and Flutter-ready Dart files for the Easy Localization package.",
   "requestFramePermissions": []
 }

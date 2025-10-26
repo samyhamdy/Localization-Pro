@@ -51,7 +51,6 @@ const extractTextFromPdf = async (file: File): Promise<string[]> => {
 
 // Helper to generate keys and translations from an array of text strings.
 const generateKeysAndTranslations = async (texts: string[]): Promise<TranslationPair[]> => {
-  if (!process.env.API_KEY) throw new Error("API_KEY environment variable not set.");
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   const prompt = `
@@ -149,7 +148,6 @@ const generateLocalizationFromPdfImages = async (file: File, onProgress: Progres
         throw new Error("Could not convert PDF to images for OCR processing.");
     }
 
-    if (!process.env.API_KEY) throw new Error("API_KEY environment variable not set.");
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     
     const prompt = `
@@ -271,7 +269,7 @@ const generateFlutterFiles = (data: TranslationPair[]): GeneratedFile[] => {
 
 import 'dart:ui';
 
-import 'package.easy_localization/easy_localization.dart' show AssetLoader;
+import 'package:easy_localization/easy_localization.dart' show AssetLoader;
 
 class CodegenLoader extends AssetLoader{
   const CodegenLoader();

@@ -127,7 +127,7 @@ const App: React.FC = () => {
       <div className="w-full max-w-3xl mx-auto">
         <header className="text-center mb-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-500">
-            AI Localization Extractor
+            101 localization Extractor
           </h1>
           <p className="mt-4 text-lg text-slate-400">
             Export from Figma to Flutter localization files in seconds.
