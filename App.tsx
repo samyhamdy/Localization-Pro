@@ -167,21 +167,18 @@ const App: React.FC = () => {
     return (
         <div className="min-h-screen bg-slate-900 text-slate-200 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
             <div className="w-full max-w-xl text-center bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl shadow-2xl shadow-slate-950/50 p-8">
-                <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-500 mb-4">
+                <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-500 mb-3">
                     API Key Required
                 </h1>
-                <p className="text-slate-400 mb-6">
+                <p className="text-slate-400 mb-4">
                     This tool requires a Gemini API key to function. Please select an active API key to proceed.
-                    <br />
-                    For more details, see the{' '}
-                    <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">
-                        billing documentation
-                    </a>.
+                    <br/>
+                    For more details, see the <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">billing documentation</a>.
                 </p>
-                {error && <p className="text-red-400 bg-red-900/50 border border-red-700 rounded-lg px-4 py-2 mb-6 text-sm">{error}</p>}
+                {error && <p className="bg-red-900/50 border border-red-700 text-red-300 rounded-lg p-3 my-4 text-sm">{error}</p>}
                 <button
                     onClick={handleSelectKey}
-                    className="px-8 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-75"
+                    className="bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-sky-900/50 w-full max-w-xs"
                 >
                     Select API Key
                 </button>
@@ -191,74 +188,71 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-200 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-3xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-500">
-            101 localization Extractor
-          </h1>
-          <p className="mt-4 text-lg text-slate-400">
-            Export from Figma to Flutter localization files in seconds.
-          </p>
-        </header>
+    <div className="min-h-screen bg-slate-900 text-slate-200 flex flex-col items-center p-4 sm:p-6 lg:p-8">
+        <div className="w-full max-w-3xl mx-auto">
+            <header className="text-center mb-8">
+                <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-500">
+                    101 localization Extractor
+                </h1>
+                <p className="mt-2 text-lg text-slate-400">
+                    Export from Figma to Flutter localization files in seconds.
+                </p>
+            </header>
 
-        <main className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl shadow-2xl shadow-slate-950/50 p-6 sm:p-8 space-y-8">
-          
-          {!file && (
-            <label 
-              htmlFor="file-upload" 
-              className={`w-full cursor-pointer bg-slate-700/50 hover:bg-slate-700 border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${isDragging ? 'border-sky-500 scale-105 shadow-lg' : 'border-slate-600 hover:border-sky-500'}`}
-              onDragEnter={(e) => handleDragEvents(e, true)}
-              onDragLeave={(e) => handleDragEvents(e, false)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-            >
-              <UploadIcon className="h-12 w-12 mx-auto text-slate-500 mb-4" />
-              <span className="text-slate-300 font-semibold block">
-                Click to upload or drag & drop
-              </span>
-              <span className="text-slate-500 text-sm mt-1 block">PDF exported from Figma</span>
-              <input ref={fileInputRef} id="file-upload" type="file" accept=".pdf" className="hidden" onChange={handleFileChange} />
-            </label>
-          )}
+            <main className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl shadow-2xl shadow-slate-950/50 p-6 sm:p-8 space-y-6">
+                {!file ? (
+                    <label
+                        htmlFor="file-upload"
+                        onDragEnter={(e) => handleDragEvents(e, true)}
+                        onDragLeave={(e) => handleDragEvents(e, false)}
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={handleDrop}
+                        className={`flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-300 ${isDragging ? 'border-sky-500 bg-slate-700/50' : 'border-slate-600 hover:bg-slate-700/50'}`}
+                    >
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <UploadIcon className="w-10 h-10 mb-3 text-slate-400" />
+                            <p className="mb-2 text-sm text-slate-400"><span className="font-semibold text-sky-400">Click to upload</span> or drag and drop</p>
+                            <p className="text-xs text-slate-500">PDF file exported from Figma</p>
+                        </div>
+                        <input id="file-upload" type="file" className="hidden" accept="application/pdf" onChange={handleFileChange} ref={fileInputRef} />
+                    </label>
+                ) : (
+                    <FilePreview file={file} pageCount={pageCount} onClear={resetState} />
+                )}
 
-          {file && (
-            <FilePreview file={file} pageCount={pageCount} onClear={resetState} />
-          )}
+                {error && <p className="bg-red-900/50 border border-red-700 text-red-300 rounded-lg p-3 text-sm animate-fade-in">{error}</p>}
 
-          {error && <p className="text-red-400 bg-red-900/50 border border-red-700 rounded-lg px-4 py-2 text-center text-sm">{error}</p>}
+                {file && !isLoading && generatedFiles.length === 0 && (
+                    <button
+                        onClick={handleProcessClick}
+                        className="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-sky-900/50 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={isLoading}
+                    >
+                        Generate Files
+                    </button>
+                )}
 
-          {file && !isLoading && generatedFiles.length === 0 && (
-            <div className="flex justify-center">
-              <button
-                onClick={handleProcessClick}
-                className="px-8 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-opacity-75"
-              >
-                Generate Files
-              </button>
-            </div>
-          )}
-
-          {isLoading && <ProgressBar message={progress.message} percentage={progress.percentage} />}
-          
-          {generatedFiles.length > 0 && !isLoading && (
-            <div className="animate-fade-in">
-              <div className="flex justify-between items-center mb-6">
-                 <h2 className="text-2xl font-bold text-slate-300">Generated Files</h2>
-                 <button onClick={handleDownloadAll} className="flex items-center space-x-2 px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white font-semibold rounded-lg shadow-md hover:scale-105 transition-all duration-300">
-                    <ZipIcon className="h-5 w-5" />
-                    <span>Download All (.zip)</span>
-                 </button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {generatedFiles.map((genFile, index) => (
-                  <ResultFile key={index} file={genFile} onDownload={handleDownload} />
-                ))}
-              </div>
-            </div>
-          )}
-        </main>
-      </div>
+                {isLoading && <ProgressBar message={progress.message} percentage={progress.percentage} />}
+                
+                {generatedFiles.length > 0 && !isLoading && (
+                    <div className="space-y-4 animate-fade-in">
+                        <h2 className="text-xl font-semibold text-slate-200">Generated Files</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {generatedFiles.map(f => (
+                                <ResultFile key={f.filename} file={f} onDownload={handleDownload} />
+                            ))}
+                        </div>
+                        <button
+                            onClick={handleDownloadAll}
+                            className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        >
+                            <ZipIcon className="w-5 h-5" />
+                            <span>Download All (.zip)</span>
+                        </button>
+                    </div>
+                )}
+            </main>
+        </div>
     </div>
   );
 };
