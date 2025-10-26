@@ -95,8 +95,8 @@ const generateKeysAndTranslations = async (texts: string[]): Promise<Translation
     });
   } catch (e) {
     console.error("Gemini API call failed (text-based):", e);
-    if (e instanceof Error && (e.message.includes('Rpc failed') || /\[5\d{2}\]/.test(e.message))) {
-      throw new Error("API call failed. Check your API key and billing status. This may also be a temporary Google Cloud issue.");
+    if (e instanceof Error) {
+        throw e; // Re-throw original error for UI to handle
     }
     throw new Error("An unknown error occurred while generating translations.");
   }
@@ -191,8 +191,8 @@ const generateLocalizationFromPdfImages = async (file: File, onProgress: Progres
             return JSON.parse(jsonString) as TranslationPair[];
         } catch (e) {
             // Re-throw critical auth/billing errors to fail the entire batch fast.
-            if (e instanceof Error && (e.message.includes('Rpc failed') || /\[5\d{2}\]/.test(e.message) || e.message.includes('API key'))) {
-                 throw new Error("API call failed. Check your API key and billing status. This may also be a temporary Google Cloud issue.");
+            if (e instanceof Error && (e.message.includes('API key') || e.message.includes('Rpc failed') || /\[5\d{2}\]/.test(e.message) || e.message.includes('Requested entity was not found'))) {
+                 throw e;
             }
             // For other, non-critical errors, just warn and return an empty array.
             console.warn(`Failed to process page ${index + 1} via OCR. Skipping page.`, e);
