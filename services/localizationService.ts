@@ -51,7 +51,7 @@ const extractTextFromPdf = async (file: File): Promise<string[]> => {
 
 // Helper to generate keys and translations from an array of text strings.
 const generateKeysAndTranslations = async (texts: string[]): Promise<TranslationPair[]> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({});
 
   const prompt = `
     Given the following list of text strings extracted from a UI design, perform the following tasks:
@@ -148,7 +148,7 @@ const generateLocalizationFromPdfImages = async (file: File, onProgress: Progres
         throw new Error("Could not convert PDF to images for OCR processing.");
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({});
     
     const prompt = `
     Given the following UI design image, perform the following tasks:
